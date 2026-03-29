@@ -10,15 +10,15 @@ class Program
     {
         try
         {
-            //var connection = DbConnectionFactory.GetPostgreSqlConnection();
-            var connection = DbConnectionFactory.GetSqLiteConnection();
+            var connection = DbConnectionFactory.GetPostgreSqlConnection();
+            //var connection = DbConnectionFactory.GetSqLiteConnection();
             var context = new ConnectedContext(connection);
 
-            // var productList = context.GetAllProducts();
-            // foreach (var product in productList)
-            // {
-            //     Console.WriteLine($"{product.Id}-{product.Name} - {product.Price} - {product.Quantity} - {product.UserName}");
-            // }
+            var productList = context.GetAllProducts();
+            foreach (var product in productList)
+            {
+                Console.WriteLine($"{product.Id}-{product.Name} - {product.Price} - {product.Quantity} - {product.UserName}");
+            }
             
             // var newUser = new User()
             // {
@@ -63,20 +63,28 @@ class Program
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             
             
-            var newUser = new User()
-            {
-                Name = "1',false); DROP TABLE table_users; --",
-                   IsDriver = true,
-            };
+            // var newUser = new User()
+            // {
+            //     Name = "1',false); DROP TABLE table_users; --",
+            //        IsDriver = true,
+            // };
+            //
+            // context.InsertNewUserWithParameters(newUser);
+            //
+            // var users = context.GetAllUsers();
+            // foreach (var user in users)
+            //     {
+            //         Console.WriteLine($"{user.Id}-{user.Name} - [{(user.IsDriver?"Водитель":"Пешеход")}]");
+            //     }
+            //
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            var avg = context.GetAvgPrice();
+            Console.WriteLine("Avg Price: " + avg);
+
+            Console.WriteLine("Старая цена для шеи:"+ context.UpdatePrice(1, 3500m));
             
-            context.InsertNewUserWithParameters(newUser);
-            
-            var users = context.GetAllUsers();
-            foreach (var user in users)
-                {
-                    Console.WriteLine($"{user.Id}-{user.Name} - [{(user.IsDriver?"Водитель":"Пешеход")}]");
-                }
-            
+             avg = context.GetAvgPrice();
+            Console.WriteLine("Avg Price: " + avg);
             
             Console.ReadLine();
         }

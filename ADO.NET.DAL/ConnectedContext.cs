@@ -101,6 +101,25 @@ public class ConnectedContext(DbConnection connection)
         _connection.Close();
     }
     
+    public void InsertNewUserWithParametersAdvanced(User user)
+    {
+        _connection.Open();
+
+        var command = _connection.CreateCommand();
+        command.CommandText = """
+                                INSERT INTO table_users (name, is_driver)
+                                VALUES (@name, @is_driver)
+                              """;
+        
+        command.AddParameterWithValue("@name", user.Name);
+        command.AddParameterWithValue("@is_driver", user.IsDriver);
+        
+        
+        command.ExecuteNonQuery();
+        Console.WriteLine($"Пользователь {user.Name}, {user.IsDriver} добавлен");
+        _connection.Close();
+    }
+    
     public IEnumerable<User> GetAllUsers()
     {
         var result = new List<User>();
@@ -135,6 +154,80 @@ public class ConnectedContext(DbConnection connection)
         }
         _connection.Close();
         return result;
+    }
+
+    public decimal GetAvgPrice()
+    {
+        decimal result = 0m;
+        
+        _connection.Open();
+        
+        var command = _connection.CreateCommand();
+
+        command.CommandText = """
+                                SELECT avg(price) FROM  table_products;
+                              """;
+        var rawResult = command.ExecuteScalar();
+        if (rawResult != null && rawResult != DBNull.Value)
+        {
+            result = Convert.ToDecimal(rawResult);
+        }
+        
+        _connection.Close();
+        return result;
+    }
+
+    public decimal UpdatePrice(int id, decimal newPrice)
+    {
+        _connection.Open();
+
+        using var command = _connection.CreateCommand();
+        command.CommandText = "update_product_price";
+        command.CommandType = CommandType.StoredProcedure;
+            
+        // command.AddParameterWithValue("p_id", id);
+        // command.AddParameterWithValue("p_new_price", newPrice);
+        
+        // var idParam = command.CreateParameter();
+        // idParam.ParameterName = "p_id";
+        // idParam.Value = id;
+        // idParam.Direction = ParameterDirection.Input; // По умолчанию Input
+        // command.Parameters.Add(idParam);
+        command.AddParameterWithValue("@p_id", id);
+        
+        
+        // var priceParam = command.CreateParameter();
+        // priceParam.ParameterName = "p_new_price";
+        // priceParam.Value = newPrice;
+        // command.Parameters.Add(priceParam);
+        command.AddParameterWithValue("@p_new_price", newPrice);
+        
+        // var output = command.CreateParameter();
+        // output.Direction = ParameterDirection.Output;
+        // output.ParameterName = "p_old_price";
+        // output.DbType =  DbType.Decimal;
+        // command.Parameters.Add(output);
+        command.AddParameterWithValue("@p_old_price", null,ParameterDirection.Output,DbType.Decimal);
+        
+        
+
+        try
+        {
+            command.ExecuteNonQuery();
+
+            var outputOldPrice = (decimal)command.Parameters["p_old_price"].Value;
+            return outputOldPrice;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при вызове процедуры: {ex.Message}");
+        }
+        finally
+        {
+            _connection.Close();
+        }
+            
+        return 0;
     }
 
 }

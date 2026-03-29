@@ -5,6 +5,7 @@
   <Folder Name="/PostgresSQL/">
     <File Path="compose.yaml" />
     <File Path="create_db.sql" />
+    <File Path="create_procedure.sql" />
     <File Path="fill_db.sql" />
   </Folder>
   <Project Path="ADO.NET.DAL/ADO.NET.DAL.csproj" />
