@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/docker/">
+    <File Path=".env" />
+    <File Path="compose.withENV.yaml" />
     <File Path="compose.yaml" />
   </Folder>
   <Folder Name="/MySQL/">
@@ -17,4 +19,6 @@
   </Folder>
   <Project Path="ADO.NET.DAL/ADO.NET.DAL.csproj" />
   <Project Path="ADONetTest.Connected/ADONetTest.Connected.csproj" />
+  <Project Path="ConnectionStringTest/ConnectionStringTest.csproj" />
+  <Project Path="DapperTest/DapperTest.csproj" />
 </Solution>

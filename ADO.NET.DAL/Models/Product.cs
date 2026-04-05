@@ -1,6 +1,6 @@
 ﻿namespace ADO.NET.DAL.Models;
 
-public class Product
+public record Product
 {
     public int Id { get; set; }
     public string Name { get; set; }

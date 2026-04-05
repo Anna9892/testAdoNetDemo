@@ -17,17 +17,18 @@ class Program
         
             //-- Флаг -d запускает контейнеры в фоновом режиме, освобождая терминал;
             
-            //var connection = DbConnectionFactory.GetPostgreSqlConnection();
+            var connection = DbConnectionFactory.GetPostgreSqlConnection();
             //var connection = DbConnectionFactory.GetSqLiteConnection();
-            var connection =DbConnectionFactory.GetMySqlConnection();
+            //var connection =DbConnectionFactory.GetMySqlConnection();
+            
             var context = new ConnectedContext(connection);
 
-            var productList = context.GetAllProducts();
-            foreach (var product in productList)
-            {
-                Console.WriteLine($"{product.Id}-{product.Name} - {product.Price} - {product.Quantity} - {product.UserName}");
-            }
-            
+            // var productList = context.GetAllProducts();
+            // foreach (var product in productList)
+            // {
+            //     Console.WriteLine($"{product.Id}-{product.Name} - {product.Price} - {product.Quantity} - {product.UserName}");
+            // }
+            //
             // var newUser = new User()
             // {
             //     Name = "John Doe",
@@ -86,13 +87,18 @@ class Program
             //     }
             //
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            var avg = context.GetAvgPrice();
-            Console.WriteLine("Avg Price: " + avg);
+            // var avg = context.GetAvgPrice();
+            // Console.WriteLine("Avg Price: " + avg);
+            //
+            // Console.WriteLine("Старая цена для шеи:"+ context.UpdatePrice(1, 3500m));
+            //
+            //  avg = context.GetAvgPrice();
+            // Console.WriteLine("Avg Price: " + avg);
+            //
 
-            Console.WriteLine("Старая цена для шеи:"+ context.UpdatePrice(1, 3500m));
+            context.TransactionsDemoRawSql();
+            //context.TransactionDemo();
             
-             avg = context.GetAvgPrice();
-            Console.WriteLine("Avg Price: " + avg);
             
             Console.ReadLine();
         }
