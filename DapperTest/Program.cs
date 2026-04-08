@@ -16,7 +16,13 @@ class Program
         // {
         //     Console.WriteLine($"{user.Id} -- {user.Name} -- {user.IsDriver}");
         // }
-        
+        var filteredUsers = dapperContext.GetUsersByFilter("Dapper");
+
+        foreach (var user in filteredUsers)
+        {
+            Console.WriteLine($"{user.Id} -- {user.Name}");
+        }
+
         // var allProducts = dapperContext.GetAllProducts();
         // foreach (var product in allProducts)
         // {

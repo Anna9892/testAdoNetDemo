@@ -11,5 +11,5 @@ CREATE TABLE table_products(
    price DECIMAL(10, 2) DEFAULT 0.00,
    is_purchased BOOLEAN DEFAULT FALSE,
    user_id INT NULL,
-   FOREIGN KEY (user_id) REFERENCES table_users(id)
+   FOREIGN KEY (user_id) REFERENCES table_users(id) ON DELETE CASCADE
 );
